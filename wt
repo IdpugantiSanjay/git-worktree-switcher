@@ -24,6 +24,7 @@ help_message() {
 	echo -e "wt lets you switch between your git worktrees with speed.\n"
 	echo "Usage:"
 	echo -e "\twt <worktree-name>: search for worktree names and change to that directory."
+	echo -e "\twt new <issue-number>: creates a new worktree from an issue number."
 	echo -e "\twt list: list out all the git worktrees."
 	echo -e "\twt update: update to the latest release of worktree switcher."
 	echo -e "\twt version: show the CLI version."
@@ -83,6 +84,12 @@ if [ -z "${args[0]}" ]; then
 fi
 
 case "${args[0]}" in
+new)
+	git checkout -b "issues/#${args[1]}"
+	git worktree add "issues-${args[1]}" "issues/#${args[1]}"
+	cd "issues-${args[1]}"
+	exec $SHELL
+	;;
 list)
 	worktree_list
 	;;
